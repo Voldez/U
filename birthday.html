@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Birthday Surprise</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
+  body {
+    font-family: 'Poppins', sans-serif;
+    background: #fff8f9;
+    margin: 0; padding: 0;
+    overflow-x: hidden;
+    text-align: center;
+    color: #444;
+    min-height: 100vh;
+  }
+  .container {
+    max-width: 340px;
+    background: #ffebf0;
+    margin: 40px auto;
+    border-radius: 20px;
+    padding: 20px 15px 30px;
+    box-shadow: 0 0 10px #f7c6d1;
+  }
+  img {
+    user-select: none;
+    pointer-events: none;
+    border-radius: 20px;
+  }
+  button, .num-btn {
+    background: #f5c0cf;
+    border: none;
+    border-radius: 15px;
+    color: white;
+    font-weight: 600;
+    font-size: 18px;
+    padding: 12px 0;
+    margin: 8px 4px;
+    width: 80px;
+    cursor: pointer;
+    user-select: none;
+    transition: background 0.3s;
+  }
+  button:hover, .num-btn:hover {
+    background: #e89cb0;
+  }
+  .pass-dots {
+    margin: 15px auto;
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+  }
+  .dot {
+    border: 2px solid #f5c0cf;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: white;
+  }
+  .dot.filled {
+    background: #f05d8f;
+  }
+  p, h2 {
+    font-weight: 600;
+    margin: 12px 0;
+  }
+  p.small-text {
+    font-weight: 400;
+    font-size: 12px;
+    color: #bc6980;
+    margin-top: 10px;
+  }
+  .hidden {
+    display: none;
+  }
+  button:focus, .num-btn:focus {
+    outline: none;
+  }
+  /* Scrollbar style for final message box */
+  #typewriterMessage::-webkit-scrollbar {
+    width: 6px;
+  }
+  #typewriterMessage::-webkit-scrollbar-thumb {
+    background-color: #f5c0cf;
+    border-radius: 3px;
+  }
+  #typewriterMessage {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  #typewriterMessage::-webkit-scrollbar {
+    display: none;
+  }
+  /* Style for final message box */
+  .message-box {
+    background: #fff0f6;
+    padding: 15px;
+    border-radius: 15px;
+    margin: 0 auto 15px;
+    font-weight: 500;
+    color: #5f4a54;
+    white-space: pre-wrap;
+    text-align: left;
+    max-width: 320px;
+    max-height: 300px;
+    overflow-y: auto;
+    font-size: 16px;
+    line-height: 1.5em;
+  }
+  /* Additional buttons style on pages */
+  #page3 button {
+    width: 120px;
+    margin: 12px 8px;
+    font-weight: 500;
+    font-size: 16px;
+    background: #e9c5d1;
+    color: #6a3f57;
+    box-shadow: 0 2px 6px #d8a5b5;
+  }
+  #page4 button, #page5 button, #page2 button {
+    width: 140px;
+    font-weight: 600;
+    font-size: 17px;
+    background: #f5b6cf;
+  }
+  #page4 button:hover, #page5 button:hover, #page2 button:hover {
+    background: #da95b0;
+  }
+  /* Styles for added page7 (before last) */
+  #page7 {
+    background: #fff8fb;
+  }
+  #page7 img {
+    width: 180px;
+    margin-bottom: 25px;
+    border-radius: 25px;
+    pointer-events: none;
+    user-select: none;
+  }
+  #page7 h2 {
+    font-size: 24px;
+    margin-bottom: 10px;
+    font-weight: 700;
+  }
+  #page7 p {
+    font-weight: 400;
+    font-size: 15px;
+    margin: 0 5px 25px;
+    color: #6a4c56;
+  }
+  #page7 button {
+    width: 260px;
+    border-radius: 25px;
+    background: #eecfd3;
+    color: #7c526a;
+    font-weight: 500;
+    font-size: 15px;
+    padding: 12px 0;
+    cursor: pointer;
+    transition: background 0.3s;
+  }
+  #page7 button:hover {
+    background: #d9adb9;
+  }
+  /* Responsive */
+  @media (max-width: 400px) {
+    .container {
+      max-width: 90vw;
+      margin: 20px auto;
+    }
+    button, .num-btn {
+      width: 60px;
+      margin: 6px 4px;
+      font-size: 16px;
+      padding: 10px 0;
+    }
+    #page3 button {
+      width: 100px;
+      margin: 10px 6px;
+      font-size: 14px;
+    }
+    #page4 button, #page5 button, #page2 button {
+      width: 120px;
+      font-size: 15px;
+    }
+    #page7 button {
+      width: 90vw;
+      font-size: 14px;
+    }
+    .message-box {
+      max-width: 90vw;
+      max-height: 280px;
+      font-size: 15px;
+    }
+    #page7 img {
+      width: 150px;
+      margin-bottom: 20px;
+    }
+  }
+  .falling-love {
+  position: fixed;
+  top: -30px;
+  font-size: 18px;
+  color: #e94074;
+  user-select: none;
+  pointer-events: none;
+  animation-name: falling;
+  animation-timing-function: linear;
+  animation-fill-mode: forwards;
+}
+@keyframes falling {
+  to {
+    transform: translateY(110vh);
+    opacity: 0;
+  }
+}
+
+</style>
+</head>
+<body>
+<div id="falling-love-container">
+<!-- Halaman 1: password input -->
+<div id="page1" class="container">
+  <img src="bunny.gif" alt="Cat with gift" />
+  <p style="color:#f06792; font-weight:700; margin-top: 15px;">
+    hihi coba tebak passwordnya,<br />i bet u know! 💗
+  </p>
+  <div class="pass-dots" id="dots">
+    <div class="dot" id="dot1"></div>
+    <div class="dot" id="dot2"></div>
+    <div class="dot" id="dot3"></div>
+    <div class="dot" id="dot4"></div>
+    <div class="dot" id="dot5"></div>
+    <div class="dot" id="dot6"></div>
+  </div>
+  <div>
+    <!-- Numeric buttons -->
+    <button class="num-btn">1</button>
+    <button class="num-btn">2</button>
+    <button class="num-btn">3</button><br />
+    <button class="num-btn">4</button>
+    <button class="num-btn">5</button>
+    <button class="num-btn">6</button><br />
+    <button class="num-btn">7</button>
+    <button class="num-btn">8</button>
+    <button class="num-btn">9</button><br />
+    <button class="num-btn" style="width:172px;">0</button>
+  </div>
+  <p class="small-text">clue: ur birthdate 💕</p>
+</div>
+</div>
+<!-- Halaman 2 -->
+<div id="page2" class="container hidden">
+  <img src="bunnyl.gif" alt="Pink rabbit" style="width:140px;" />
+  <h2>haiii darling! 💗</h2>
+  <p style="font-style: italic; margin-bottom: 25px;">@soulatte</p>
+  <button id="nextTo3">click here &lt;3</button>
+</div>
+
+<!-- Halaman 3 -->
+<div id="page3" class="container hidden">
+  <img src="love.gif" alt="Cute hugging cats" style="width:140px;" />
+  <p style="font-weight: 500; margin-bottom: 18px;">are u readyy to open thissss?</p>
+  <button id="sureBby">sure darl</button>
+  <button id="noSowwy">mmm no sowwy</button>
+</div>
+
+<!-- Halaman 4: no sowwy response -->
+<div id="page4" class="container hidden">
+  <img src="nono.gif" alt="Angry bunny" style="width:140px;" />
+  <p style="font-weight: 500; margin-bottom: 25px;">ugh, you really like to joke, tap SURE DARL right now 😡💗</p>
+  <button id="backTo3">back</button>
+</div>
+
+<!-- Halaman 5: sure bby response -->
+<div id="page5" class="container hidden">
+  <img src="shy.gif" alt="Cute cat with hearts" style="width:140px;" />
+  <p style="font-weight: 500; margin-bottom: 25px;">Yeayy thank you for answering SURE!!! last one i made something for u darling, read it slowly yaaa ..</p>
+  <button id="toPage7Btn">oke sayang</button>
+</div>
+
+<!-- Halaman 7: Halaman sebelum terakhir (sesuai screenshot) -->
+<div id="page7" class="container hidden">
+  <img src="hhe.gif" 
+    alt="Kucing berpelukan love" 
+    style="width: 180px; margin-bottom: 25px;" />
+  <h2>happy birthday sayang!</h2>
+  <p>Congratulations on growing better, I hope you are always healthy and always happy, darling ...</p>
+  <button id="toFinalBtn">I wrote something very special for you 💌</button>
+</div>
+
+<!-- Halaman terakhir -->
+<div id="page6" class="container hidden" style="max-width: 360px;">
+  <audio id="audioPlayer" loop>
+    <source src="lagu/school1.mp3" type="audio/mp3">
+  </audio>
+  <img src="runn.gif" alt="Bunny with wand" style="width: 100px; margin-bottom: 15px;" />
+  <h2>a wish for u on ur birthday 🥹🤲</h2>
+  <div id="typewriterMessage" class="message-box"></div>
+</div>
+
+<script>
+  // Password Input Logic
+  const correctPass = "221106";
+  const passDots = [...document.querySelectorAll('.dot')];
+  let inputPass = "";
+
+  document.querySelectorAll('.num-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      if(inputPass.length < 6){
+        inputPass += btn.textContent;
+        updateDots();
+        if(inputPass.length === 6){
+          setTimeout(() => {
+            if(inputPass === correctPass){
+              showPage(2);
+            } else {
+              alert('Password salah, coba lagi ya sayang 💗');
+              inputPass = "";
+              updateDots();
+            }
+          }, 300);
+        }
+      }
+    });
+  });
+
+  function updateDots(){
+    passDots.forEach((dot, i) => {
+      if(i < inputPass.length){
+        dot.classList.add('filled');
+      } else {
+        dot.classList.remove('filled');
+      }
+    });
+  }
+
+  // Show/hide page function
+  function showPage(n) {
+    for(let i = 1; i <= 7; i++){
+      const page = document.getElementById('page'+i);
+      if(page) page.classList.toggle('hidden', i !== n);
+    }
+  }
+
+  // Buttons navigation
+  document.getElementById('nextTo3').addEventListener('click', () => {
+    showPage(3);
+  });
+
+  document.getElementById('sureBby').addEventListener('click', () => {
+    showPage(5);
+  });
+
+  document.getElementById('noSowwy').addEventListener('click', () => {
+    showPage(4);
+  });
+
+  document.getElementById('backTo3').addEventListener('click', () => {
+    showPage(3);
+  });
+
+  document.getElementById('toPage7Btn').addEventListener('click', () => {
+    showPage(7);
+  });
+
+  document.getElementById('toFinalBtn').addEventListener('click', () => {
+    showPage(6);
+    typewriterDiv.innerHTML = "";
+    typeWriterMessage(fullMessage);
+    // Auto play audio (browser bisa blokir autoplay)
+    audioPlayer.play().catch(() => {});
+  });
+
+  // Typewriter effect function
+  const fullMessage = 
+`hey love, i hope good things always follow you. may the universe guide you and make your dreams easier to reach. whatever you wish for today, may it come true. 🥹💗
+
+even when things don’t go your way, don’t give up on yourself. remember: you are loved and deserve to be celebrated, always. 💗
+
+i’m so proud of how far you’ve come and all the effort you’ve put in. i’ll always be here for you, just a call or message away. my home is close, so no matter how busy i am, if you need me, i’m ready to be by your side.`;
+
+  const typewriterDiv = document.getElementById('typewriterMessage');
+  function typeWriterMessage(text, i = 0) {
+    if (i < text.length) {
+      typewriterDiv.innerHTML += text.charAt(i) === '\n' ? '<br>' : text.charAt(i);
+      i++;
+      typewriterDiv.scrollTop = typewriterDiv.scrollHeight;
+      setTimeout(() => typeWriterMessage(text, i), 40);
+    }
+  }
+
+  // Audio player auto pause when leave page 6
+  const audioPlayer = document.getElementById('audioPlayer');
+  const observer = new MutationObserver(() => {
+    if (document.getElementById('page6').classList.contains('hidden')) {
+      audioPlayer.pause();
+    }
+  });
+  observer.observe(document.body, { attributes: true, subtree: true, attributeFilter: ['class'] });
+  // Container untuk love yang jatuh
+const loveContainer = document.createElement('div');
+loveContainer.id = 'falling-love-container';
+document.body.appendChild(loveContainer);
+
+let loveInterval;
+
+function createLove() {
+  const love = document.createElement('div');
+  love.textContent = '💗';
+  love.className = 'falling-love';
+
+  love.style.left = Math.random() * 100 + 'vw';
+  love.style.animationDuration = (4 + Math.random() * 3) + 's';
+  love.style.fontSize = (14 + Math.random() * 18) + 'px';
+  love.style.opacity = (0.4 + Math.random() * 0.6);
+
+  loveContainer.appendChild(love);
+
+  setTimeout(() => {
+    love.remove();
+  }, 7000);
+}
+
+function startLoveFall() {
+  if (loveInterval) return;
+  loveInterval = setInterval(createLove, 400);
+}
+
+function stopLoveFall() {
+  if (loveInterval) clearInterval(loveInterval);
+  loveInterval = null;
+  loveContainer.innerHTML = '';
+}
+
+startLoveFall();
+</script>
+
+</body>
+</html>
